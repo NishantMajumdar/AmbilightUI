@@ -1,7 +1,7 @@
 # AmbilightUI
 A modern WinUI 3 based frontend for Ambilight - using Arduino UNO with WS2812B, along with an RGB LED on analog pins 9,10,11 and a LDR on A0.\
 Uses Win8 Desktop Duplication for Ambient lighting.\
-Uses OpenHardwareMonitor for GPU temperature detection, changes color of external RGB LED accordingly, from Green to Red.
+Uses OpenHardwareMonitor for GPU temperature detection, changes color of external RGB LED accordingly, from Green to Red.\
 Uses Light Dependent Resistor in pin A0, to automatically turn on lights when room becomes dark.
 
 
