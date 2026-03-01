@@ -5,11 +5,11 @@ A WinUI 3 based frontend for Ambilight - using Arduino UNO with WS2812B, along w
 
 ## Pin Positions 
 
-WS2812B -> D6
-RGB RED ->  D11
-RGB BLUE -> D9
-RGB GREEN -> 10
-LDR -> A0
+WS2812B -> D6\
+RGB RED ->  D11\
+RGB BLUE -> D9\
+RGB GREEN -> 10\
+LDR -> A0\
 Common Ground is necessary!
 
 ## Guide
