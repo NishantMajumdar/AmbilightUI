@@ -1,0 +1,10 @@
+namespace AmbilightUI
+{
+    [default_interface]
+    runtimeclass MainWindow : Microsoft.UI.Xaml.Window
+    {
+        MainWindow();
+
+    // Notice we deleted the "Int32 MyProperty;" line that was causing the crash.
+}
+}

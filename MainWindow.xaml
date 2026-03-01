@@ -1,0 +1,190 @@
+<Window
+    x:Class="AmbilightUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Ambilight Control Panel">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid>
+        <NavigationView x:Name="NavView" PaneDisplayMode="Left" SelectionChanged="NavView_SelectionChanged" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Tag="Power" Content="Power &amp; Styling">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7E8;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="Effects" Content="Modes &amp; Effects">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE771;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="Motion" Content="Motion &amp; Brightness">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE714;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="Color" Content="Color Calibration">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE790;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="Mapping" Content="LED Mapping">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7F4;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="Hardware" Content="Hardware &amp; LED">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE713;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Tag="Sensors" Content="Sensors">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7E6;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Tag="About" Content="About">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE946;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <ScrollViewer Margin="20">
+                <StackPanel Spacing="15" MaxWidth="600" HorizontalAlignment="Left">
+
+                    <TextBlock x:Name="HeaderTextBlock" Text="Power &amp; Styling" FontSize="28" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                    <Border x:Name="PowerPanel" Visibility="Collapsed" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="10">
+                            <ToggleSwitch x:Name="MasterPowerToggle" Header="Master Strip Power" Toggled="MasterPower_Toggled"/>
+                            <TextBlock x:Name="StatusText" Text="Status: Active" Foreground="LightGreen"/>
+                            <Line Stretch="Fill" Stroke="{ThemeResource DividerStrokeColorDefaultBrush}" X2="1" Margin="0,5,0,5"/>
+                            <ToggleSwitch x:Name="StyleToggle" Header="Opaque Background" Toggled="StyleToggle_Toggled"/>
+                            <ToggleSwitch x:Name="StartupToggle" Header="Run on Windows Startup" Toggled="StartupToggle_Toggled" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="EffectsPanel" Visibility="Collapsed" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="15">
+                            <TextBlock Text="Choose how the LED strip behaves. Disabling Screen Capture will free up GPU resources." Foreground="Gray" TextWrapping="Wrap" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="ModeBox" Header="Operating Mode" Width="250" SelectionChanged="ModeBox_SelectionChanged">
+                                <x:String>Screen Capture</x:String>
+                                <x:String>Solid Color</x:String>
+                                <x:String>Animated Effect</x:String>
+                            </ComboBox>
+                            <Button x:Name="SolidColorButton" Content="Pick Solid Color" Visibility="Collapsed">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <ColorPicker x:Name="StripColorPicker" ColorChanged="StripColor_ColorChanged" IsAlphaEnabled="False"/>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                            <ComboBox x:Name="EffectBox" Header="Choose Effect" Width="250" Visibility="Collapsed" SelectionChanged="EffectBox_SelectionChanged">
+                                <x:String>Rainbow Cycle</x:String>
+                                <x:String>Color Breathing</x:String>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="MotionPanel" Visibility="Collapsed" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="10">
+                            <Slider x:Name="BrightnessSlider" Header="Overall Brightness" Minimum="0.1" Maximum="2.0" StepFrequency="0.05" ValueChanged="Slider_ValueChanged"/>
+                            <Slider x:Name="SmoothingSlider" Header="Motion Smoothing (Lower = Smoother)" Minimum="0.01" Maximum="0.5" StepFrequency="0.01" ValueChanged="Slider_ValueChanged"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="ColorPanel" Visibility="Collapsed" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="10">
+                            <Slider x:Name="RedGainSlider" Header="Red Gain" Minimum="0.1" Maximum="1.5" StepFrequency="0.01" ValueChanged="Slider_ValueChanged"/>
+                            <Slider x:Name="GreenGainSlider" Header="Green Gain" Minimum="0.1" Maximum="1.5" StepFrequency="0.01" ValueChanged="Slider_ValueChanged"/>
+                            <Slider x:Name="BlueGainSlider" Header="Blue Gain" Minimum="0.1" Maximum="1.5" StepFrequency="0.01" ValueChanged="Slider_ValueChanged"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="MappingPanel" Visibility="Collapsed" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Set the exact number of physical LEDs on each side of your monitor." Foreground="Gray" TextWrapping="Wrap" Margin="0,0,0,5"/>
+                            <NumberBox x:Name="TopLedBox" Header="Top Edge" Minimum="0" Maximum="200" SpinButtonPlacementMode="Inline" ValueChanged="LedBox_ValueChanged"/>
+                            <NumberBox x:Name="LeftLedBox" Header="Left Edge" Minimum="0" Maximum="200" SpinButtonPlacementMode="Inline" ValueChanged="LedBox_ValueChanged"/>
+                            <NumberBox x:Name="RightLedBox" Header="Right Edge" Minimum="0" Maximum="200" SpinButtonPlacementMode="Inline" ValueChanged="LedBox_ValueChanged"/>
+                            <NumberBox x:Name="BottomLedBox" Header="Bottom Edge" Minimum="0" Maximum="200" SpinButtonPlacementMode="Inline" ValueChanged="LedBox_ValueChanged"/>
+                            <Line Stretch="Fill" Stroke="{ThemeResource DividerStrokeColorDefaultBrush}" X2="1" Margin="0,5,0,5"/>
+                            <ComboBox x:Name="StartPosBox" Header="Starting Position" SelectionChanged="StartPos_SelectionChanged" Width="200">
+                                <ComboBoxItem Content="Top-Left"/>
+                                <ComboBoxItem Content="Top-Right"/>
+                                <ComboBoxItem Content="Bottom-Right"/>
+                                <ComboBoxItem Content="Bottom-Left"/>
+                            </ComboBox>
+                            <ComboBox x:Name="DirectionBox" Header="Routing Direction" SelectionChanged="Direction_SelectionChanged" Width="200">
+                                <ComboBoxItem Content="Clockwise"/>
+                                <ComboBoxItem Content="Anti-Clockwise"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="HardwarePanel" Visibility="Collapsed" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="10">
+                            <ComboBox x:Name="ComPortBox" Header="Arduino COM Port" SelectionChanged="ComPort_SelectionChanged" Width="200">
+                                <ComboBoxItem Content="COM1"/>
+                                <ComboBoxItem Content="COM2"/>
+                                <ComboBoxItem Content="COM3"/>
+                                <ComboBoxItem Content="COM4"/>
+                                <ComboBoxItem Content="COM5"/>
+                                <ComboBoxItem Content="COM6"/>
+                                <ComboBoxItem Content="COM7"/>
+                                <ComboBoxItem Content="COM8"/>
+                                <ComboBoxItem Content="COM9"/>
+                            </ComboBox>
+                            <Line Stretch="Fill" Stroke="{ThemeResource DividerStrokeColorDefaultBrush}" X2="1" Margin="0,5,0,5"/>
+                            <ComboBox x:Name="AuxModeBox" Header="LED Behavior" SelectionChanged="AuxMode_SelectionChanged" Width="200">
+                                <ComboBoxItem Content="Static Color"/>
+                                <ComboBoxItem Content="GPU Temp Monitor"/>
+                            </ComboBox>
+                            <TextBlock Text="Static Color Override" Margin="0,5,0,0"/>
+                            <ColorPicker x:Name="AuxColorPicker" IsColorSliderVisible="True" IsAlphaEnabled="False" IsEnabled="False" ColorChanged="AuxColor_ColorChanged"/>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel x:Name="SensorsPanel" Visibility="Collapsed" Spacing="15">
+
+                        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="15">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="Live Light Sensor Data" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="LdrValueText" Text="Current Value: --" FontSize="24" Foreground="#4DB8FF"/>
+                                <ProgressBar x:Name="LdrProgressBar" Minimum="0" Maximum="1024" Value="0" Height="20" Margin="0,5,0,0" ShowError="False" IsIndeterminate="False"/>
+                                <TextBlock Text="Values close to 0 trigger the gesture cover event. A value near 1000 means the sensor is fully exposed to ambient light." Foreground="Gray" TextWrapping="Wrap" FontSize="12"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="15">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="Live GPU Temperature" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="GpuTempText" Text="Current Temp: -- °C" FontSize="24" Foreground="#FF6B6B"/>
+                                <ProgressBar x:Name="GpuTempProgressBar" Minimum="20" Maximum="100" Value="0" Height="20" Margin="0,5,0,0" Foreground="#FF6B6B" ShowError="False" IsIndeterminate="False"/>
+                                <TextBlock Text="The external LED strip color will sync to this temperature if GPU Temp Monitor mode is selected." Foreground="Gray" TextWrapping="Wrap" FontSize="12"/>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+
+                    <Border x:Name="AboutPanel" Visibility="Collapsed" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Ambilight Control Panel" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Text="Version 1.0" Foreground="Gray"/>
+                            <Line Stretch="Fill" Stroke="{ThemeResource DividerStrokeColorDefaultBrush}" X2="1" Margin="0,5,0,5"/>
+                            <TextBlock Text="Developed by Nishant Majumdar" FontWeight="SemiBold"/>
+                            <HyperlinkButton Content="Visit my GitHub" NavigateUri="https://github.com/NishantMajumdar"/>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </NavigationView>
+    </Grid>
+</Window>
