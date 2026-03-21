@@ -1,0 +1,36 @@
+name: Build C++ WinUI App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v3
+
+    # Point NuGet directly to your project file to read the packages.config
+    - name: Restore NuGet Packages
+      run: nuget restore AmbilightUI.vcxproj
+
+    # Point MSBuild directly to your project file
+    - name: Build the App
+      run: msbuild AmbilightUI.vcxproj /p:Configuration=Release /p:Platform=x64 /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxBundle=Never
+
+    # Upload the compiled files
+    - name: Upload Compiled App (Artifact)
+      uses: actions/upload-artifact@v4
+      with:
+        name: AmbilightUI-Compiled-App
+        path: 'x64\Release\**\*'
