@@ -209,14 +209,28 @@ void gpu_monitor() {
                 if (elapsed.count() > 0.5f) { blink_state = !blink_state; last_blink = now; }
                 new_rgb = blink_state ? std::vector<uint8_t>{255, 0, 0} : std::vector<uint8_t>{ 0, 0, 0 };
             }
+            else if (max_temp <= 60.0f) {
+                // Keep it solid green up to 60 degrees
+                new_rgb = { 0, 255, 0 };
+            }
             else {
-                float r = 0, g = 0, b = 0;
-                if (max_temp <= 50.0f) { r = 0; g = 255; b = 0; }
-                else if (max_temp < 60.0f) { float t = (max_temp - 57.0f) / 10.0f; r = 0 + (255 - 0) * t; g = 255; }
-                else if (max_temp < 70.0f) { float t = (max_temp - 60.0f) / 10.0f; r = 255; g = 255 + (128 - 255) * t; }
-                else if (max_temp < 80.0f) { float t = (max_temp - 70.0f) / 10.0f; r = 255; g = 128 + (0 - 128) * t; }
-                else { r = 255; g = 0; b = 0; }
-                new_rgb = { static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b) };
+                // Smooth gradient between 60.0f and 80.0f using a smoothstep math curve
+                
+                // 1. Red channel: Ramps up smoothly from 0 to 255 between 60C and 70C
+                float t_red = std::clamp((max_temp - 60.0f) / 10.0f, 0.0f, 1.0f);
+                float r_curve = t_red * t_red * (3.0f - 2.0f * t_red); // Smoothstep formula
+                float r = 255.0f * r_curve;
+
+                // 2. Green channel: Ramps down smoothly from 255 to 0 between 60C and 80C
+                float t_green = std::clamp((max_temp - 60.0f) / 20.0f, 0.0f, 1.0f);
+                float g_curve = 1.0f - (t_green * t_green * (3.0f - 2.0f * t_green)); // Reverse Smoothstep
+                float g = 255.0f * g_curve;
+
+                new_rgb = { 
+                    static_cast<uint8_t>(r), 
+                    static_cast<uint8_t>(g), 
+                    static_cast<uint8_t>(0) 
+                };
             }
 
             std::lock_guard<std::mutex> lock(serial_mutex);
