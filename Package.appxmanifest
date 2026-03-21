@@ -10,14 +10,14 @@
 
   <Identity
     Name="f6c9ad35-0159-43bf-ba34-0bf3a27129b7"
-    Publisher="CN=mnish"
+    Publisher="CN=nishant"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="f6c9ad35-0159-43bf-ba34-0bf3a27129b7" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>AmbilightUI</DisplayName>
-    <PublisherDisplayName>mnish</PublisherDisplayName>
+    <PublisherDisplayName>nishant</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
