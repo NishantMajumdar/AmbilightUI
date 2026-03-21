@@ -212,7 +212,7 @@ void gpu_monitor() {
             else {
                 float r = 0, g = 0, b = 0;
                 if (max_temp <= 50.0f) { r = 0; g = 255; b = 0; }
-                else if (max_temp < 60.0f) { float t = (max_temp - 50.0f) / 10.0f; r = 0 + (255 - 0) * t; g = 255; }
+                else if (max_temp < 60.0f) { float t = (max_temp - 57.0f) / 10.0f; r = 0 + (255 - 0) * t; g = 255; }
                 else if (max_temp < 70.0f) { float t = (max_temp - 60.0f) / 10.0f; r = 255; g = 255 + (128 - 255) * t; }
                 else if (max_temp < 80.0f) { float t = (max_temp - 70.0f) / 10.0f; r = 255; g = 128 + (0 - 128) * t; }
                 else { r = 255; g = 0; b = 0; }
