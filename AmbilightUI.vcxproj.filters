@@ -41,8 +41,8 @@
     <Image Include="Assets\LockScreenLogo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="..\..\..\..\Downloads\app.ico" />
-    <Image Include="..\..\..\..\downloads\icon2.ico" />
+    <Image Include="app.ico" />
+    <Image Include="icon2.ico" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Assets">

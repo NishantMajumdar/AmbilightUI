@@ -171,8 +171,8 @@
 		</Text>
 	</ItemGroup>
 	<ItemGroup>
-		<Image Include="..\..\..\..\Downloads\app.ico" />
-		<Image Include="..\..\..\..\downloads\icon2.ico" />
+		<Image Include="app.ico" />
+		<Image Include="icon2.ico" />
 		<Image Include="Assets\LockScreenLogo.scale-200.png" />
 		<Image Include="Assets\SplashScreen.scale-200.png" />
 		<Image Include="Assets\Square150x150Logo.scale-200.png" />
