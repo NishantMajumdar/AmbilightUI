@@ -22,7 +22,7 @@ jobs:
       uses: nuget/setup-nuget@v2 
 
     - name: Restore NuGet Packages
-      run: nuget restore AmbilightUI.vcxproj
+      run: nuget restore AmbilightUI.vcxproj -PackagesDirectory packages
 
     - name: Build the App
       run: msbuild AmbilightUI.vcxproj /p:Configuration=Release /p:Platform=x64 /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxBundle=Never
