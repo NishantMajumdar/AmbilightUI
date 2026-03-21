@@ -1,29 +1,26 @@
 #include "pch.h"
 
-// 1. Classic Windows headers MUST go first to prevent IUnknown conflicts
-#include <shellapi.h>
-#include <commctrl.h>
-#include <shlobj.h> // Required for finding the Documents folder
-#pragma comment(lib, "comctl32.lib")
-#pragma comment(lib, "shell32.lib")
-
-// 2. Standard C++ headers
+// 1. Standard C++ headers
 #include <thread>
 #include <fstream>
 #include <cmath>
 #include <string>
 
-// 3. Project headers
+// 2. Project headers
 #include "MainWindow.xaml.h"
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 #endif
 #include "AmbilightEngine.h"
 
-// 4. WinRT / Modern UI headers go last
+// 3. WinRT / Modern UI headers
 #include <microsoft.ui.xaml.window.h>
 #include <winrt/Microsoft.UI.Interop.h>
 #include <winrt/Microsoft.UI.Windowing.h>
+
+// 4. Required Linker Libraries for the classic headers we put in pch.h
+#pragma comment(lib, "comctl32.lib")
+#pragma comment(lib, "shell32.lib")
 
 // --- DYNAMIC CONFIG PATH GENERATOR ---
 std::wstring GetConfigFilePath() {

@@ -4,10 +4,18 @@
 #include <restrictederrorinfo.h>
 #include <hstring.h>
 
+// --- ADDED CLASSIC WINDOWS HEADERS ---
+// These must be included before any WinRT headers to prevent the 
+// ambiguous IUnknown error when compiling C++/WinRT projects.
+#include <shellapi.h>
+#include <commctrl.h>
+#include <shlobj.h> // Required for finding the Documents folder
+
 // Undefine GetCurrentTime macro to prevent
 // conflict with Storyboard::GetCurrentTime
 #undef GetCurrentTime
 
+// --- WINRT HEADERS ---
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.ApplicationModel.Activation.h>
